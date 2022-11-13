@@ -1,4 +1,4 @@
-from pathlib import PurePath, Path
+from pathlib import Path
 from dagster import (
     load_assets_from_package_module,
     repository,
@@ -18,7 +18,7 @@ def duckdb(init_context):
 @io_manager(required_resource_keys={"duckdb"})
 def county_health_io_manager(init_context):
 
-    output_dir = Path.cwd().joinpath('data', 'db')
+    output_dir = Path.cwd().joinpath("data", "db")
     return CountyHealthIOManager(output_dir, init_context.resources.duckdb)
 
 

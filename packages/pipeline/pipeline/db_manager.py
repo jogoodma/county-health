@@ -82,4 +82,6 @@ class CountyHealthIOManager(IOManager):
         :param context:
         :return:
         """
-        return SQL("select * from read_parquet($db_file)", db_file=self._get_path(context))
+        return SQL(
+            "select * from read_parquet($db_file)", db_file=self._get_path(context)
+        )
