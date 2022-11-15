@@ -1,0 +1,11 @@
+
+import duckdb from 'duckdb';
+const db = new duckdb.Database(':memory:'); // or a file name for a persistent DB
+db.all('SELECT 42 AS fortytwo', function(err, res) {
+  if (err) {
+    throw err;
+  }
+  console.log(res[0].fortytwo)
+});
+
+
