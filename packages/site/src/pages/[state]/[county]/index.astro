@@ -1,9 +1,7 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-export function getStaticPaths () {
- return [
-    {params: {state: 'IN', county: 'Monroe'}},
-  ];
+import Layout from "../../../layouts/Layout.astro";
+export function getStaticPaths() {
+  return [{ params: { state: "IN", county: "Monroe" } }];
 }
 
 const { state, county } = Astro.params;
