@@ -1,0 +1,16 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+export function getStaticPaths () {
+ return [
+    {params: {state: 'IN', county: 'Monroe'}},
+  ];
+}
+
+const { state, county } = Astro.params;
+---
+
+<Layout title={`Health Metrics for ${county}, ${state}`}>
+  <div>
+    Page for {state}, {county}
+  </div>
+</Layout>

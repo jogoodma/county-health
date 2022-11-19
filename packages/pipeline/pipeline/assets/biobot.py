@@ -43,6 +43,12 @@ def biobot_covid_cases() -> SQL:
     df["name"] = df["name"].str.split(pat=", ", expand=True)[0]
     return SQL("SELECT * FROM $df", df=df)
 
+@asset
+def biobot_covid_cases_by_region() -> SQL:
+    df = pd.read_csv(
+        "https://raw.githubusercontent.com/biobotanalytics/covid19-wastewater-data/master/cases_by_region.csv"
+    )
+    return SQL("SELECT * FROM $df", df=df)
 
 @asset
 def biobot_covid_national_avg(biobot_covid_cases: SQL) -> SQL:

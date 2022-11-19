@@ -1,18 +1,50 @@
 ---
-import type { DuckDbError, TableData } from 'duckdb';
-import { getAllStateCounties } from '../db';
+import Layout from '../layouts/Layout.astro';
+import { getAveragesByRegion, getWasteWaterByRegion } from '../db';
+
+//import SearchCombobox from '../components/SearchCombobox.tsx';
+import NationalAverage from '../components/Charts/NationalAverage';
+import type { NationalAverages, NationalAverageItem } from '../components/Charts/NationalAverage';
+import type { NationalWasteWater as NationalWasteWaterType, NationalWasteWaterItem } from '../components/Charts/NationalWasteWater';
+import NationalWasteWater from '../components/Charts/NationalWasteWater';
 
 
-const counties = await getAllStateCounties();
+//const counties = await getAllStateCounties();
+const allAveragesByRegion = await getAveragesByRegion();
+const averagesGroupedByRegion = allAveragesByRegion.reduce<NationalAverages>((acc: NationalAverages, curr) => {
+  const { region, ...rest } = curr;
+  if (!acc[region] && typeof region === 'string') {
+    acc[region] = [];
+  }
+  if (typeof rest === 'object') {
+    acc[region].push(rest as NationalAverageItem);
+  }
+  return acc;
+}, {});
+
+const allWasteWaterByRegion = await getWasteWaterByRegion();
+const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<NationalWasteWaterType>((acc: NationalWasteWaterType, curr) => {
+  const { region, ...rest } = curr;
+  if (!acc[region] && typeof region === 'string') {
+    acc[region] = [];
+  }
+  if (typeof rest === 'object') {
+    acc[region].push(rest as NationalWasteWaterItem);
+  }
+  return acc;
+}, {});
 ---
-
-<body>
+<Layout title="County Health">
   <h1>Astro</h1>
   <h1>My Astro Site</h1>
-  <ul>
-    {counties.map(c => (
-      <li>{c.state}</li>
-    ))}
-  </ul>
-
-</body>
+  <div class="flex flex-col items-center ">
+    <figure class="w-10/12 p-4">
+      <figcaption class="text-2xl font-extrabold text-gray-400">Rolling Average of COVID Cases by Region</figcaption>
+      <NationalAverage client:load averages={averagesGroupedByRegion} />
+    </figure>
+    <figure class="w-10/12 p-4">
+      <figcaption class="text-2xl font-extrabold text-gray-400">Weekly Waste Water Concentrations</figcaption>
+      <NationalWasteWater client:load averages={wasteWaterGroupedByRegion} />
+    </figure>
+  </div>
+</Layout>

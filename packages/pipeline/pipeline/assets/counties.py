@@ -17,6 +17,7 @@ def all_counties_state(biobot_covid_wastewater: SQL, biobot_covid_cases: SQL) ->
         SELECT DISTINCT name AS county, state FROM $bbcw
         UNION
         SELECT DISTINCT name AS county, state FROM $bbcc
+        ORDER BY state, county
         """,
         bbcw=biobot_covid_wastewater,
         bbcc=biobot_covid_cases,
