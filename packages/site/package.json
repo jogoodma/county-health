@@ -18,11 +18,13 @@
     "@react-spring/web": ">=9.4.5 <10.0.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "@visx/group": "^2.10.0",
     "@visx/legend": "^2.10.0",
     "@visx/scale": "^2.2.2",
     "@visx/xychart": "^2.16.0",
     "astro": "^1.6.9",
     "aws-sdk": "^2.1256.0",
+    "d3-format": "^3.1.0",
     "duckdb-async": "^0.6.0",
     "mock-aws-s3": "^4.0.2",
     "nock": "^13.2.9",
@@ -32,6 +34,7 @@
     "tailwindcss": "^3.2.4"
   },
   "devDependencies": {
+    "@types/d3-format": "^3.0.1",
     "prettier": "^2.7.1"
   }
 }

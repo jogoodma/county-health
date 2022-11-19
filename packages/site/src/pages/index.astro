@@ -3,48 +3,50 @@ import Layout from '../layouts/Layout.astro';
 import { getAveragesByRegion, getWasteWaterByRegion } from '../db';
 
 //import SearchCombobox from '../components/SearchCombobox.tsx';
-import NationalAverage from '../components/Charts/NationalAverage';
-import type { NationalAverages, NationalAverageItem } from '../components/Charts/NationalAverage';
-import type { NationalWasteWater as NationalWasteWaterType, NationalWasteWaterItem } from '../components/Charts/NationalWasteWater';
-import NationalWasteWater from '../components/Charts/NationalWasteWater';
+import CovidCase from '../components/Charts/CovidCases';
+import CovidWasteWater from '../components/Charts/CovidWasteWater';
+import type { CovidCases, CovidCaseItem } from '../components/Charts/CovidCases';
+import type { WasteWater, WasteWaterItem } from '../components/Charts/CovidWasteWater';
 
 
 //const counties = await getAllStateCounties();
 const allAveragesByRegion = await getAveragesByRegion();
-const averagesGroupedByRegion = allAveragesByRegion.reduce<NationalAverages>((acc: NationalAverages, curr) => {
+const averagesGroupedByRegion = allAveragesByRegion.reduce<CovidCases>((acc: CovidCases, curr) => {
   const { region, ...rest } = curr;
   if (!acc[region] && typeof region === 'string') {
     acc[region] = [];
   }
   if (typeof rest === 'object') {
-    acc[region].push(rest as NationalAverageItem);
+    acc[region].push(rest as CovidCaseItem);
   }
   return acc;
 }, {});
 
+
+// TODO - Refactor this to use typescript generics and merge with above.
 const allWasteWaterByRegion = await getWasteWaterByRegion();
-const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<NationalWasteWaterType>((acc: NationalWasteWaterType, curr) => {
+const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<WasteWater>((acc: WasteWater, curr) => {
   const { region, ...rest } = curr;
   if (!acc[region] && typeof region === 'string') {
     acc[region] = [];
   }
   if (typeof rest === 'object') {
-    acc[region].push(rest as NationalWasteWaterItem);
+    acc[region].push(rest as WasteWaterItem);
   }
   return acc;
 }, {});
 ---
 <Layout title="County Health">
-  <h1>Astro</h1>
-  <h1>My Astro Site</h1>
-  <div class="flex flex-col items-center ">
+  <div class="flex flex-col items-center gap-20">
     <figure class="w-10/12 p-4">
-      <figcaption class="text-2xl font-extrabold text-gray-400">Rolling Average of COVID Cases by Region</figcaption>
-      <NationalAverage client:load averages={averagesGroupedByRegion} />
+      <figcaption class="text-2xl font-extrabold text-gray-400">Rolling 7 Day Average of COVID Cases by Region</figcaption>
+      <CovidCase client:load averages={averagesGroupedByRegion} />
+      <figcaption><cite>Source: <a href="https://biobot.io/data/">BioBot</a></cite></figcaption>
     </figure>
     <figure class="w-10/12 p-4">
       <figcaption class="text-2xl font-extrabold text-gray-400">Weekly Waste Water Concentrations</figcaption>
-      <NationalWasteWater client:load averages={wasteWaterGroupedByRegion} />
+      <CovidWasteWater client:load averages={wasteWaterGroupedByRegion} />
+      <figcaption><cite>Source: <a href="https://biobot.io/data/">BioBot</a></cite></figcaption>
     </figure>
   </div>
 </Layout>

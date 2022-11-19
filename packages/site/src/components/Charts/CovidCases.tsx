@@ -7,29 +7,26 @@ import {
 } from "@visx/xychart";
 import { scaleOrdinal } from "@visx/scale";
 import { LegendOrdinal } from "@visx/legend";
+import { format } from "d3-format";
 
-export interface NationalWasteWaterItem {
+export interface CovidCaseItem {
   date: string;
   rolling_avg: number;
 }
-export interface NationalWasteWater {
-  [key: string]: NationalWasteWaterItem[];
+export interface CovidCases {
+  [key: string]: CovidCaseItem[];
 }
 
-interface NationalWasteWaterProps {
-  averages: NationalWasteWater;
+interface CovidCasesProps {
+  averages: CovidCases;
 }
 
 const accessors = {
-  xAccessor: (d: NationalWasteWaterItem) => d?.date,
-  yAccessor: (d: NationalWasteWaterItem) => d?.rolling_avg,
+  xAccessor: (d: CovidCaseItem) => d?.date,
+  yAccessor: (d: CovidCaseItem) => d?.rolling_avg,
 };
 
-const yAxisLabelFormatter = (value: number) => {
-  return `${value}`;
-};
-
-const NationalWasteWater = ({ averages }: NationalWasteWaterProps) => {
+const CovidCases = ({ averages }: CovidCasesProps) => {
   const regionNames = Object.keys(averages);
   const ordinalColorScale = scaleOrdinal({
     domain: regionNames,
@@ -45,8 +42,8 @@ const NationalWasteWater = ({ averages }: NationalWasteWaterProps) => {
         <AnimatedAxis orientation="bottom" label="Date" />
         <AnimatedAxis
           orientation="left"
-          tickFormat={yAxisLabelFormatter}
-          label="Average COVID Conc."
+          tickFormat={format("~s")}
+          label="Average Number of Cases"
         />
         <AnimatedGrid columns={false} numTicks={4} />
         {regionNames.map((region) => (
@@ -65,23 +62,26 @@ const NationalWasteWater = ({ averages }: NationalWasteWaterProps) => {
           showSeriesGlyphs
           renderTooltip={({ tooltipData }) => {
             if (tooltipData) {
-              const numCases = accessors.yAccessor(
-                tooltipData.nearestDatum.datum
-              );
-              return (
-                <div>
-                  <div
-                    style={{
-                      color: ordinalColorScale(tooltipData.nearestDatum.key),
-                    }}
-                  >
-                    {tooltipData.nearestDatum.key}
+              const regions = Object.keys(tooltipData.datumByKey);
+              return regions.map((region) => {
+                const regionalDataPoint = tooltipData.datumByKey[region]
+                  .datum as CovidCaseItem;
+                const numCases = accessors.yAccessor(regionalDataPoint);
+                return (
+                  <div className="h-8" key={region}>
+                    <div
+                      style={{
+                        color: ordinalColorScale(region),
+                      }}
+                    >
+                      {region}
+                    </div>
+                    {accessors.xAccessor(regionalDataPoint)}
+                    {": "}
+                    {new Intl.NumberFormat().format(Math.round(numCases))}
                   </div>
-                  {accessors.xAccessor(tooltipData.nearestDatum.datum)}
-                  {": "}
-                  {new Intl.NumberFormat().format(Math.round(numCases))}
-                </div>
-              );
+                );
+              });
             }
             return null;
           }}
@@ -91,4 +91,4 @@ const NationalWasteWater = ({ averages }: NationalWasteWaterProps) => {
     </div>
   );
 };
-export default NationalWasteWater;
+export default CovidCases;
