@@ -1,6 +1,6 @@
 DATA_DIR := data/db/*
 
-all: pull
+all: update
 
 clean:
 	rm -f ${DATA_DIR}
