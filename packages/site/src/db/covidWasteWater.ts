@@ -2,6 +2,8 @@ import { Database } from "duckdb-async";
 
 export const COVID_REGIONAL_WASTE_WATER =
   "../../data/db/biobot_covid_ww_by_region.parquet";
+export const COVID_WASTE_WATER =
+  "../../data/db/biobot_covid_wastewater.parquet";
 
 export const getWasteWaterByRegion = async (num_months: number = 3) => {
   const db = await Database.create(":memory:");
@@ -17,4 +19,22 @@ export const getWasteWaterRegions = async () => {
     `SELECT DISTINCT region FROM '${COVID_REGIONAL_WASTE_WATER}'`
   );
   return rows;
+};
+
+export const getCovidWasteWaterByCounty = async (
+  state: string,
+  county: string,
+  num_months: number = 3
+) => {
+  const db = await Database.create(":memory:");
+  const stmt = await db.prepare(
+    `SELECT sampling_week AS date,
+            effective_concentration_rolling_average AS rolling_avg
+     FROM '${COVID_WASTE_WATER}'
+     WHERE state = ?::STRING
+       AND name = ?::STRING
+       AND date_diff('month', date::DATE, current_date) <= ${num_months}
+     ORDER BY date ASC`
+  );
+  return await stmt.all(state, county);
 };

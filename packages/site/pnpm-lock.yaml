@@ -4,7 +4,10 @@ specifiers:
   '@astrojs/react': ^1.2.2
   '@astrojs/tailwind': ^2.1.2
   '@headlessui/react': ^1.7.4
+  '@headlessui/tailwindcss': ^0.1.1
+  '@heroicons/react': ^2.0.13
   '@react-spring/web': '>=9.4.5 <10.0.0'
+  '@tailwindcss/forms': ^0.5.3
   '@types/d3-format': ^3.0.1
   '@types/react': ^18.0.25
   '@types/react-dom': ^18.0.9
@@ -23,13 +26,17 @@ specifiers:
   prop-types: ^15.8.1
   react: ^18.2.0
   react-dom: ^18.2.0
+  solid: link:@heroicons/react/20/solid
   tailwindcss: ^3.2.4
 
 dependencies:
   '@astrojs/react': 1.2.2_cn3ejhfta5lq2dae4xucvtkwvu
   '@astrojs/tailwind': 2.1.2_tailwindcss@3.2.4
   '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
+  '@headlessui/tailwindcss': 0.1.1_tailwindcss@3.2.4
+  '@heroicons/react': 2.0.13_react@18.2.0
   '@react-spring/web': 9.5.5_biqbaboplfbrettd7655fr4n2y
+  '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.9
   '@visx/group': 2.10.0_react@18.2.0
@@ -45,6 +52,7 @@ dependencies:
   prop-types: 15.8.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  solid: link:@heroicons/react/20/solid
   tailwindcss: 3.2.4
 
 devDependencies:
@@ -476,6 +484,23 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
+  /@headlessui/tailwindcss/0.1.1_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-MJbc/MG1iVDow0IQYdsZNVY2xiTa2fDpXLF01xIAyNH6M+Ks0c6X0k3x6PqAvwvKWKEFhS0MlMzrDUVTU6cXDA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      tailwindcss: ^3.0
+    dependencies:
+      tailwindcss: 3.2.4
+    dev: false
+
+  /@heroicons/react/2.0.13_react@18.2.0:
+    resolution: {integrity: sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@jridgewell/gen-mapping/0.1.1:
     resolution: {integrity: sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w==}
     engines: {node: '>=6.0.0'}
@@ -661,6 +686,15 @@ packages:
       '@react-spring/types': 9.5.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.2.4
     dev: false
 
   /@tootallnate/once/2.0.0:
@@ -3714,6 +3748,11 @@ packages:
   /mimic-fn/4.0.0:
     resolution: {integrity: sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==}
     engines: {node: '>=12'}
+    dev: false
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: false
 
   /minimatch/3.1.2:

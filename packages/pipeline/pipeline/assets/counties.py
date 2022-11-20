@@ -1,5 +1,6 @@
 from dagster import asset
 from .biobot import biobot_covid_wastewater, biobot_covid_cases
+import pandas as pd
 from ..utils.sql import SQL
 
 
@@ -22,3 +23,17 @@ def all_counties_state(biobot_covid_wastewater: SQL, biobot_covid_cases: SQL) ->
         bbcw=biobot_covid_wastewater,
         bbcc=biobot_covid_cases,
     )
+
+
+@asset
+def county_fips_data() -> SQL:
+    """
+    Fetches the county FIPS data.
+
+    :return:
+    """
+    df = pd.read_csv(
+        "https://raw.githubusercontent.com/ChuckConnell/articles/master/fips2county.tsv",
+        sep="\t",
+    )
+    return SQL("SELECT * FROM $df", df=df)

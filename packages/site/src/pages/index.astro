@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getAveragesByRegion, getWasteWaterByRegion } from "../db";
+import CountySearch from "../components/CountySearch";
 
-//import SearchCombobox from '../components/SearchCombobox.tsx';
 import CovidCase from "../components/Charts/CovidCases";
 import CovidWasteWater from "../components/Charts/CovidWasteWater";
 import type {
@@ -14,7 +14,6 @@ import type {
   WasteWaterItem,
 } from "../components/Charts/CovidWasteWater";
 
-//const counties = await getAllStateCounties();
 const allAveragesByRegion = await getAveragesByRegion();
 const averagesGroupedByRegion = allAveragesByRegion.reduce<CovidCases>(
   (acc: CovidCases, curr) => {
@@ -48,7 +47,11 @@ const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<WasteWater>(
 ---
 
 <Layout title="County Health">
-  <div class="flex flex-col items-center gap-20">
+  <section class="flex flex-col items-center mt-8">
+    <CountySearch client:load />
+  </section>
+  <section class="flex flex-col items-center">
+    <h2 class="self-start text-3xl font-bold p-8">National COVID Metrics</h2>
     <figure class="w-10/12 p-4">
       <figcaption class="text-2xl font-extrabold text-gray-400">
         Rolling 7 Day Average of COVID Cases by Region
@@ -67,5 +70,5 @@ const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<WasteWater>(
         <cite>Source: <a href="https://biobot.io/data/">BioBot</a></cite>
       </figcaption>
     </figure>
-  </div>
+  </section>
 </Layout>

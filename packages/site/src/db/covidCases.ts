@@ -1,6 +1,7 @@
 import { Database } from "duckdb-async";
 
 export const COVID_NAT_AVG = "../../data/db/biobot_covid_national_avg.parquet";
+export const COVID_CASES = "../../data/db/biobot_covid_cases.parquet";
 export const COVID_REGIONAL_AVG =
   "../../data/db/biobot_covid_cases_by_region.parquet";
 
@@ -27,4 +28,22 @@ export const getRegions = async () => {
     `SELECT DISTINCT display_name AS region FROM '${COVID_REGIONAL_AVG}'`
   );
   return rows;
+};
+
+export const getCovidCasesByCounty = async (
+  state: string,
+  county: string,
+  num_months: number = 3
+) => {
+  const db = await Database.create(":memory:");
+  const stmt = await db.prepare(
+    `SELECT date,
+            rolling_average_cases_per_100k_centered AS rolling_avg
+     FROM '${COVID_CASES}'
+     WHERE state = ?::STRING
+       AND name = ?::STRING
+       AND date_diff('month', date::DATE, current_date) <= ${num_months}
+     ORDER BY date ASC`
+  );
+  return await stmt.all(state, county);
 };
