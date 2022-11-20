@@ -1,15 +1,15 @@
 name: "County Health Update"
-inputs:
-  site_path:
-    description: "Sub directory containing the Astro site"
-    required: false
-    default: "packages/site"
-  pipeline_path:
-    description: "Sub directory containing the Dagster pipelin"
-    required: false
-    default: "packages/pipeline"
 on:
   workflow_dispatch:
+    inputs:
+      site_path:
+        description: "Sub directory containing the Astro site"
+        required: false
+        default: "packages/site"
+      pipeline_path:
+        description: "Sub directory containing the Dagster pipelin"
+        required: false
+        default: "packages/pipeline"
 
 permissions:
   contents: read
