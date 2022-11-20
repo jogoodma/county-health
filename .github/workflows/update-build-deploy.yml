@@ -1,4 +1,14 @@
-name: Update county health metrics, build site, and deploy
+name: "County Health Update"
+description: "Update, build, and deploy the County Health website"
+inputs:
+  site_path:
+    description: "Sub directory containing the Astro site"
+    required: false
+    default: "packages/site"
+  pipeline_path:
+    description: "Sub directory containing the Dagster pipelin"
+    required: false
+    default: "packages/pipeline"
 on:
   workflow_dispatch:
 
@@ -22,7 +32,7 @@ jobs:
           cache: 'pip' # caching pip dependencies
 
       - name: Install python dependencies
-        run: pip install -r packages/pipeline/requirements.txt
+        run: pip install -r ${{ inputs.pipeline_path }}/requirements.txt
 
       - name: Update FlyBase metadata file
         run: make pull
@@ -33,12 +43,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install, build, and upload site 
-        uses: withastro/action@v0
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
-          path: packages/site
           node-version: 18
-          package-manager: pnpm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: |
+          cd ${{ inputs.site_path }} && \
+          pnpm install
+
+      - name: Build
+        shell: bash
+        run: |
+          cd ${{ inputs.site_path }} \
+          pnpm run build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "${{ inputs.site_path }}/dist/"
 
   deploy:
     needs: build
@@ -50,3 +94,4 @@ jobs:
       - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
