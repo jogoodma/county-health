@@ -5,7 +5,7 @@ all: pull
 clean:
 	rm -f ${DATA_DIR}
 
-pull:
+update:
 	dagster job execute  -f packages/pipeline/pipeline/repository.py -d packages/pipeline
 
 format:

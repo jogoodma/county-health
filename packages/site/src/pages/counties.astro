@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getAllStateCounties } from "../db";
+
+const counties = (await getAllStateCounties()) as {
+  state: string;
+  county: string;
+}[];
+---
+
+<Layout title="List of Counties">
+  <section class="p-10">
+    <h2 class="text-gray-500 text-3xl">List of Counties with Health Metrics</h2>
+    <p class="p-5">Click a county below to view its health metrics</p>
+    <ul class="columns-xs p-10">
+      {
+        counties.map((county) => (
+          <li>
+            <a href={`${county.state}/${county.county}`}>
+              {county.state}, {county.county}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>

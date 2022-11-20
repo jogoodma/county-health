@@ -49,6 +49,9 @@ const wasteWaterGroupedByRegion = allWasteWaterByRegion.reduce<WasteWater>(
 <Layout title="County Health">
   <section class="flex flex-col items-center mt-8">
     <CountySearch client:load />
+    or <a class="text-lg font-bold text-cyan-700" href="counties"
+      >View a list of all Counties</a
+    >
   </section>
   <section class="flex flex-col items-center">
     <h2 class="self-start text-3xl font-bold p-8">National COVID Metrics</h2>
