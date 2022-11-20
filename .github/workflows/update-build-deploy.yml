@@ -1,5 +1,4 @@
 name: "County Health Update"
-description: "Update, build, and deploy the County Health website"
 inputs:
   site_path:
     description: "Sub directory containing the Astro site"
