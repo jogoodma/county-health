@@ -26,7 +26,7 @@ def all_counties_state(biobot_covid_wastewater: SQL, biobot_covid_cases: SQL) ->
 
 
 @asset
-def county_fips_data() -> SQL:
+def county_fips() -> SQL:
     """
     Fetches the county FIPS data.
 
