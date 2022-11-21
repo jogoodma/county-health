@@ -9,10 +9,13 @@ import {
 import CovidCases from "../../../components/Charts/CovidCases";
 import CovidWasteWater from "../../../components/Charts/CovidWasteWater";
 import Flu from "../../../components/Charts/Flu";
+import RSV from "../../../components/Charts/RSV";
 import type { CovidCases as CovidCasesType } from "../../../components/Charts/CovidCases";
 import type { FluWastewater } from "../../../components/Charts/Flu";
 
 import Layout from "../../../layouts/Layout.astro";
+import { getRsvByCounty } from "../../../db/RSV";
+import type { RSVWastewater } from "../../../components/Charts/RSV";
 
 export const getStaticPaths = async () => {
   const counties = await getAllStateCounties();
@@ -40,6 +43,10 @@ const wasteWaterAverages = {
 const fluConc = {
   [county as string]: await getFluByCounty(fipsCode),
 } as FluWastewater;
+
+const RSVConc = {
+  [county as string]: await getRsvByCounty(fipsCode),
+} as RSVWastewater;
 ---
 
 <Layout title={`Health Metrics for ${county}, ${state}`}>
@@ -67,6 +74,17 @@ const fluConc = {
         Influenza A Waste Water Concentrations for {county}, {state}
       </figcaption>
       <Flu client:load concentrations={fluConc} />
+      <figcaption>
+        <cite
+          >Source: <a href="https://publichealth.verily.com">Verily</a>
+        </cite>
+      </figcaption>
+    </figure>
+    <figure class="w-10/12 p-4">
+      <figcaption class="text-2xl font-extrabold text-gray-400">
+        RSV Waste Water Concentrations for {county}, {state}
+      </figcaption>
+      <RSV client:load concentrations={RSVConc} />
       <figcaption>
         <cite
           >Source: <a href="https://publichealth.verily.com">Verily</a>

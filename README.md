@@ -54,5 +54,5 @@ cd packages/site && pnpm run dev
 
 - [BioBot](https://biobot.io/)
 - [BioBot Github](https://github.com/biobotanalytics/covid19-wastewater-data)
-- [Verily](https://verily.com/)
+- [Verily](https://publichealth.verily.com/)
 - [US County FIPS Data](https://raw.githubusercontent.com/ChuckConnell/articles/master/fips2county.tsv)
