@@ -34,7 +34,7 @@ jobs:
         run: pip install -r ${{ inputs.pipeline_path }}/requirements.txt
 
       - name: Update FlyBase metadata file
-        run: make pull
+        run: make update 
 
   build:
     runs-on: ubuntu-latest
