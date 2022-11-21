@@ -56,3 +56,19 @@ cd packages/site && pnpm run dev
 - [BioBot Github](https://github.com/biobotanalytics/covid19-wastewater-data)
 - [Verily](https://publichealth.verily.com/)
 - [US County FIPS Data](https://raw.githubusercontent.com/ChuckConnell/articles/master/fips2county.tsv)
+
+## References
+
+This project was inspired by the blog post [Build a poor man’s data lake from scratch with DuckDB](https://dagster.io/blog/duckdb-data-lake#-implementing-the-iomanager) by Pete Hunt and Sandy Ryza.
+
+** Libraries used with love include:**
+- [Dagster](https://dagster.io/)
+- [Pandas](https://pandas.pydata.org/)
+- [DuckDB](https://duckdb.org/)
+- [Astro](https://astro.build/)
+- [Visx](https://airbnb.io/visx/)
+- [D3.js](https://d3js.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [React](https://reactjs.org/)
+
+Many thanks to the community for their work on these projects.
