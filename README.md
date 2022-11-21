@@ -61,7 +61,7 @@ cd packages/site && pnpm run dev
 
 This project was inspired by the blog post [Build a poor man’s data lake from scratch with DuckDB](https://dagster.io/blog/duckdb-data-lake#-implementing-the-iomanager) by Pete Hunt and Sandy Ryza.
 
-** Libraries used with love include:**
+**Libraries used with love include:**
 - [Dagster](https://dagster.io/)
 - [Pandas](https://pandas.pydata.org/)
 - [DuckDB](https://duckdb.org/)
