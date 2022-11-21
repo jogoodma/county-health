@@ -12,4 +12,7 @@ format:
 	cd packages/pipeline && black pipeline pipeline_tests
 	cd packages/site && yarn run format
 
-.PHONY: format clean
+dagit:
+	dagit -f packages/pipeline/pipeline/repository.py -d packages/pipeline
+
+.PHONY: format clean update

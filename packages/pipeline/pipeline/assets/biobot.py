@@ -8,7 +8,8 @@ def biobot_covid_wastewater() -> SQL:
     df = pd.read_csv(
         "https://raw.githubusercontent.com/biobotanalytics/covid19-wastewater-data/master/wastewater_by_county.csv"
     )
-    df["name"] = df["name"].str.split(pat=", ", expand=True)[0]
+    # Normalize the county names.
+    df = normalize_county_names(df)
     return SQL("SELECT * FROM $df", df=df)
 
 
@@ -40,7 +41,7 @@ def biobot_covid_cases() -> SQL:
     df = pd.read_csv(
         "https://github.com/biobotanalytics/covid19-wastewater-data/raw/master/cases_by_county.csv"
     )
-    df["name"] = df["name"].str.split(pat=", ", expand=True)[0]
+    df = normalize_county_names(df)
     return SQL("SELECT * FROM $df", df=df)
 
 
@@ -68,3 +69,9 @@ def biobot_covid_national_avg(biobot_covid_cases: SQL) -> SQL:
         """,
         bbcc=biobot_covid_cases,
     )
+
+
+def normalize_county_names(df: pd.DataFrame) -> pd.DataFrame:
+    df["name"] = df["name"].str.split(pat=", ", expand=True)[0]
+    df["name"] = df["name"].str.replace(" County", "")
+    return df
