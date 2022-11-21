@@ -16,7 +16,7 @@ const counties = (await getAllStateCounties()) as {
       {
         counties.map((county) => (
           <li>
-            <a href={`${county.state}/${county.county}`}>
+            <a href={`/county-health/${county.state}/${county.county}`}>
               {county.state}, {county.county}
             </a>
           </li>
