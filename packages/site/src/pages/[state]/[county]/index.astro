@@ -3,11 +3,14 @@ import {
   getAllStateCounties,
   getCovidCasesByCounty,
   getCovidWasteWaterByCounty,
+  getFluByCounty,
+  getFipsByStateCounty,
 } from "../../../db";
 import CovidCases from "../../../components/Charts/CovidCases";
 import CovidWasteWater from "../../../components/Charts/CovidWasteWater";
+import Flu from "../../../components/Charts/Flu";
 import type { CovidCases as CovidCasesType } from "../../../components/Charts/CovidCases";
-import type { WasteWater } from "../../../components/Charts/CovidWasteWater";
+import type { FluWastewater } from "../../../components/Charts/Flu";
 
 import Layout from "../../../layouts/Layout.astro";
 
@@ -18,6 +21,7 @@ export const getStaticPaths = async () => {
   });
 };
 const { state, county } = Astro.params;
+const fipsCode = await getFipsByStateCounty(state as string, county as string);
 
 const caseAverages = {
   [county as string]: await getCovidCasesByCounty(
@@ -32,6 +36,10 @@ const wasteWaterAverages = {
     county as string
   ),
 } as CovidCasesType;
+
+const fluConc = {
+  [county as string]: await getFluByCounty(fipsCode),
+} as FluWastewater;
 ---
 
 <Layout title={`Health Metrics for ${county}, ${state}`}>
@@ -47,11 +55,22 @@ const wasteWaterAverages = {
     </figure>
     <figure class="w-10/12 p-4">
       <figcaption class="text-2xl font-extrabold text-gray-400">
-        Weekly Waste Water Concentrations for {county}, {state}
+        Weekly COVID Waste Water Concentrations for {county}, {state}
       </figcaption>
       <CovidWasteWater client:load averages={wasteWaterAverages} />
       <figcaption>
         <cite>Source: <a href="https://biobot.io/data/">BioBot</a></cite>
+      </figcaption>
+    </figure>
+    <figure class="w-10/12 p-4">
+      <figcaption class="text-2xl font-extrabold text-gray-400">
+        Influenza A Waste Water Concentrations for {county}, {state}
+      </figcaption>
+      <Flu client:load concentrations={fluConc} />
+      <figcaption>
+        <cite
+          >Source: <a href="https://publichealth.verily.com">Verily</a>
+        </cite>
       </figcaption>
     </figure>
   </section>

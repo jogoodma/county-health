@@ -20,7 +20,12 @@ def county_fips() -> SQL:
 
 
 @asset
-def all_counties_state(biobot_covid_wastewater: SQL, biobot_covid_cases: SQL, verily_fips: SQL, county_fips: SQL) -> SQL:
+def all_counties_state(
+    biobot_covid_wastewater: SQL,
+    biobot_covid_cases: SQL,
+    verily_fips: SQL,
+    county_fips: SQL,
+) -> SQL:
     """
     Fetches all counties and states from the BioBot Covid wastewater dataset and the BioBot Covid case dataset.
 
@@ -44,5 +49,3 @@ def all_counties_state(biobot_covid_wastewater: SQL, biobot_covid_cases: SQL, ve
         vfips=verily_fips,
         fips=county_fips,
     )
-
-
