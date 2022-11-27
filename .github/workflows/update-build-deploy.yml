@@ -80,15 +80,15 @@ jobs:
 
       - name: Download parquet files
         uses: actions/download-artifact@v3
-          with:
-            name: duckdb-parquet-files
-            path: data/db
+        with:
+          name: duckdb-parquet-files
+          path: data/db
 
       - name: Download dagster files
         uses: actions/download-artifact@v3
-          with:
-            name: dagster-pipeline-meta
-            path: data/dagster
+        with:
+          name: dagster-pipeline-meta
+          path: data/dagster
 
       - name: Build
         shell: bash
