@@ -8,9 +8,6 @@ permissions:
   pages: write
   id-token: write
 
-env:
-  DAGSTER_HOME: data/dagster
-
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -30,12 +27,6 @@ jobs:
 
       - name: Update FlyBase metadata file
         run: make update 
-
-      - name: Archive Dagster files
-        uses: actions/upload-artifact@v3
-        with:
-          name: dagster-pipeline-meta
-          path: data/dagster
 
       - name: Archive parquet files
         uses: actions/upload-artifact@v3
@@ -85,12 +76,6 @@ jobs:
         with:
           name: duckdb-parquet-files
           path: data/db
-
-      - name: Download dagster files
-        uses: actions/download-artifact@v3
-        with:
-          name: dagster-pipeline-meta
-          path: data/dagster
 
       - name: Build
         shell: bash
