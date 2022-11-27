@@ -2,7 +2,7 @@ name: "County Health Update"
 on:
   on:
   schedule:
-    - cron: '30 5 * * 1'
+    - cron: '17 4 * * 0'
 
 permissions:
   contents: read
@@ -29,7 +29,20 @@ jobs:
       - name: Update FlyBase metadata file
         run: make update 
 
+      - name: Archive Dagster files
+        uses: actions/upload-artifact@v3
+        with:
+          name: dagster-pipeline-meta
+          path: data/dagster
+
+      - name: Archive parquet files
+        uses: actions/upload-artifact@v3
+        with:
+          name: duckdb-parquet-files
+          path: data/db
+
   build:
+    needs: update
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -64,6 +77,18 @@ jobs:
         run: |
           cd packages/site && \
           pnpm install
+
+      - name: Download parquet files
+        uses: actions/download-artifact@v3
+          with:
+            name: duckdb-parquet-files
+            path: data/db
+
+      - name: Download dagster files
+        uses: actions/download-artifact@v3
+          with:
+            name: dagster-pipeline-meta
+            path: data/dagster
 
       - name: Build
         shell: bash
