@@ -27,7 +27,7 @@ debugpy==1.6.3
 decorator==5.1.1
 defusedxml==0.7.1
 docstring-parser==0.15
-duckdb==0.6.0
+duckdb==0.6.1
 entrypoints==0.4
 exceptiongroup==1.0.1
 executing==1.2.0
@@ -86,6 +86,8 @@ pathspec==0.10.1
 pendulum==2.1.2
 pexpect==4.8.0
 pickleshare==0.7.5
+# Editable install with no version control (pipeline==0.0.0)
+-e /Users/jogoodma/development/I535/city-health/packages/pipeline
 platformdirs==2.5.2
 pluggy==1.0.0
 prometheus-client==0.15.0
