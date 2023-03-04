@@ -5,6 +5,7 @@ export const STATE_COUNTIES = "../../data/db/all_counties_state.parquet";
 export const getAllStateCounties = async () => {
   const db = await Database.create(":memory:");
   const rows = await db.all(`SELECT * FROM '${STATE_COUNTIES}'`);
+  db.close();
   return rows;
 };
 
@@ -14,5 +15,6 @@ export const getFipsByStateCounty = async (state: string, county: string) => {
     `SELECT fipscode FROM '${STATE_COUNTIES}' WHERE state = ?::STRING AND county = ?::STRING`
   );
   const rows = await stmt.all(state, county);
+  db.close();
   return Number.parseInt(rows[0].fipscode);
 };

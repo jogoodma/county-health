@@ -17,5 +17,7 @@ export const getRsvByCounty = async (
          ORDER BY date ASC
          `
   );
-  return await stmt.all(fipscode, num_months);
+  const results = await stmt.all(fipscode, num_months);
+  db.close();
+  return results;
 };

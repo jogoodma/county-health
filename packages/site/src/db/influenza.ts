@@ -17,5 +17,7 @@ export const getFluByCounty = async (
          ORDER BY date ASC
          `
   );
-  return await stmt.all(fipscode, num_months);
+  const rows = await stmt.all(fipscode, num_months);
+  db.close();
+  return rows;
 };

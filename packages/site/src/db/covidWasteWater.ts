@@ -10,6 +10,7 @@ export const getWasteWaterByRegion = async (num_months: number = 3) => {
   const rows = await db.all(
     `SELECT region, sampling_week AS date, avg_7day_conc AS rolling_avg FROM '${COVID_REGIONAL_WASTE_WATER}' WHERE date_diff('month', date::DATE, current_date) <= ${num_months} ORDER BY region,date ASC`
   );
+  db.close();
   return rows;
 };
 
@@ -18,6 +19,7 @@ export const getWasteWaterRegions = async () => {
   const rows = await db.all(
     `SELECT DISTINCT region FROM '${COVID_REGIONAL_WASTE_WATER}'`
   );
+  db.close();
   return rows;
 };
 
@@ -36,5 +38,7 @@ export const getCovidWasteWaterByCounty = async (
        AND date_diff('month', date::DATE, current_date) <= ${num_months}
      ORDER BY date ASC`
   );
-  return await stmt.all(state, county);
+  const rows = await stmt.all(state, county);
+  db.close();
+  return rows;
 };

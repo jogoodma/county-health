@@ -11,6 +11,7 @@ export const getNationalAverage = async (num_months: number = 3) => {
   const rows = await db.all(
     `SELECT * FROM '${COVID_NAT_AVG}' WHERE date_diff('month', date::DATE, current_date) <= ${num_months} ORDER BY date ASC`
   );
+  db.close();
   return rows;
 };
 
@@ -19,6 +20,7 @@ export const getAveragesByRegion = async (num_months: number = 3) => {
   const rows = await db.all(
     `SELECT display_name AS region, date, rolling_average_new_cases_centered AS rolling_avg FROM '${COVID_REGIONAL_AVG}' WHERE date_diff('month', date::DATE, current_date) <= ${num_months} ORDER BY region,date ASC`
   );
+  db.close();
   return rows;
 };
 
@@ -27,6 +29,7 @@ export const getRegions = async () => {
   const rows = await db.all(
     `SELECT DISTINCT display_name AS region FROM '${COVID_REGIONAL_AVG}'`
   );
+  db.close();
   return rows;
 };
 
@@ -45,5 +48,7 @@ export const getCovidCasesByCounty = async (
        AND date_diff('month', date::DATE, current_date) <= ${num_months}
      ORDER BY date ASC`
   );
-  return await stmt.all(state, county);
+  const rows = await stmt.all(state, county);
+  db.close();
+  return rows;
 };

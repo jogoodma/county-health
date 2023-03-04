@@ -20,7 +20,12 @@ import type { RSVWastewater } from "../../../components/Charts/RSV";
 export const getStaticPaths = async () => {
   const counties = await getAllStateCounties();
   return counties.map((c) => {
-    return [{ params: { state: c.state, county: c.county } }];
+    try {
+      return [{ params: { state: c.state, county: c.county } }];
+    } catch (e) {
+      console.log(`${c.state} ${c.county} caused an error: ${e}`);
+      return null;
+    }
   });
 };
 const { state, county } = Astro.params;
