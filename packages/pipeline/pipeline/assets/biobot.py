@@ -64,7 +64,7 @@ def biobot_covid_national_avg(biobot_covid_cases: SQL) -> SQL:
     return SQL(
         """
         SELECT date,
-               AVG(rolling_average_cases_per_100k_centered) AS avg_cases_per_100k
+               AVG(rolling_average_cases_per_100k) AS avg_cases_per_100k
                FROM $bbcc GROUP BY date ORDER BY date DESC
         """,
         bbcc=biobot_covid_cases,

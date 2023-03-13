@@ -18,7 +18,7 @@ export const getNationalAverage = async (num_months: number = 3) => {
 export const getAveragesByRegion = async (num_months: number = 3) => {
   const db = await Database.create(":memory:");
   const rows = await db.all(
-    `SELECT display_name AS region, date, rolling_average_new_cases_centered AS rolling_avg FROM '${COVID_REGIONAL_AVG}' WHERE date_diff('month', date::DATE, current_date) <= ${num_months} ORDER BY region,date ASC`
+    `SELECT region, date, rolling_average_new_cases_centered AS rolling_avg FROM '${COVID_REGIONAL_AVG}' WHERE date_diff('month', date::DATE, current_date) <= ${num_months} ORDER BY region,date ASC`
   );
   db.close();
   return rows;
@@ -27,7 +27,7 @@ export const getAveragesByRegion = async (num_months: number = 3) => {
 export const getRegions = async () => {
   const db = await Database.create(":memory:");
   const rows = await db.all(
-    `SELECT DISTINCT display_name AS region FROM '${COVID_REGIONAL_AVG}'`
+    `SELECT DISTINCT region FROM '${COVID_REGIONAL_AVG}'`
   );
   db.close();
   return rows;
@@ -41,7 +41,7 @@ export const getCovidCasesByCounty = async (
   const db = await Database.create(":memory:");
   const stmt = await db.prepare(
     `SELECT date,
-            rolling_average_cases_per_100k_centered AS rolling_avg
+            rolling_average_cases_per_100k AS rolling_avg
      FROM '${COVID_CASES}'
      WHERE state = ?::STRING
        AND name = ?::STRING
